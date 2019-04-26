@@ -83,4 +83,4 @@ functions:
           authorizer: aws_iam
 
 resources:
-  - ${files(resources/api-gateway-errors.yml)}
+  - ${file(resources/api-gateway-errors.yml)}
