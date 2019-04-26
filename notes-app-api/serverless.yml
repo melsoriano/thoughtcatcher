@@ -81,3 +81,6 @@ functions:
           method: delete
           cors: true
           authorizer: aws_iam
+
+resources:
+  - ${files(resources/api-gateway-errors.yml)}
