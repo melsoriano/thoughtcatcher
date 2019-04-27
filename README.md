@@ -1,6 +1,6 @@
 # Serverless Note Taking App
 
-Note taking app built with the Serverless Framework, AWS Amplify, and React
+Note taking app built with Serverless and React on AWS
 
 **Pre-Requisites**
 - NodeJS
