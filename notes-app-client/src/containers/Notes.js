@@ -51,6 +51,10 @@ export default class Notes extends Component {
     });
   }
 
+  deleteNote() {
+    return API.del('notes', `/notes/${this.props.match.params.id}`);
+  }
+
   validateForm() {
     return this.state.content.length > 0;
   }
@@ -112,6 +116,14 @@ export default class Notes extends Component {
     }
 
     this.setState({ isDeleting: true });
+
+    try {
+      await this.deleteNote();
+      this.props.history.push('/');
+    } catch (e) {
+      alert(e);
+      this.setState({ isDeleting: false });
+    }
   };
 
   render() {

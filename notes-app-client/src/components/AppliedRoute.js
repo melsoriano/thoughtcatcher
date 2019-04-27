@@ -14,6 +14,13 @@ import { Route } from 'react-router-dom';
   * Finally, we take component (set as Component) and props (set as cProps) and render inside our Route. Note, the props variable in this case is what the Route component passes us. Whereas, the cProps is the childProps that we want to set.
  
  */
-export default ({ component: Component, props: cProps, ...rest }) => (
-  <Route {...rest} render={props => <Component {...props} {...cProps} />} />
+export default ({
+  component: ComponentToBeRendered,
+  props: cProps,
+  ...rest
+}) => (
+  <Route
+    {...rest}
+    render={props => <ComponentToBeRendered {...props} {...cProps} />}
+  />
 );
