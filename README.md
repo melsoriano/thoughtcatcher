@@ -1,4 +1,4 @@
-# Serverless Note Taking App
+# Brain Dump
 
 Note taking app built with Serverless and React on AWS
 
