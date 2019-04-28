@@ -1,6 +1,6 @@
 {
-  "short_name": "BrainDump",
-  "name": "Brain Dump",
+  "short_name": "thoughtcatcher",
+  "name": "thoughtcatcher",
   "icons": [
     {
       "src": "./favicons/android-chrome-192x192.png",

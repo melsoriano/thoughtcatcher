@@ -1,8 +1,37 @@
 import React, { Component } from 'react';
-import { PageHeader, ListGroup, ListGroupItem } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Link } from 'react-router-dom';
 import { API } from 'aws-amplify';
-import './Home.css';
+import styled from 'styled-components';
+import { theme, mixins, media } from '../styles';
+const { fontSizes } = theme;
+
+const ButtonContainer = styled.div`
+  ${mixins.flexCenter};
+  ${media.thone`flex-flow: column wrap;`};
+  a {
+    ${mixins.button};
+  }
+`;
+
+const PageHeader = styled.h2`
+  display: flex;
+`;
+
+const ListGroup = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const ListGroupItem = styled.li`
+  display: flex;
+`;
+
+const Subtitle = styled.h2`
+  font-size: ${fontSizes.xxlarge};
+  text-align: center;
+  padding: 20px;
+  ${media.phablet`font-size:${fontSizes.h1}`};
+`;
 
 export default class Home extends Component {
   constructor(props) {
@@ -36,28 +65,33 @@ export default class Home extends Component {
   renderNotesList(notes) {
     return [{}].concat(notes).map((note, i) =>
       i !== 0 ? (
-        <LinkContainer key={note.notesId} to={`/notes/${note.notesId}`}>
-          <ListGroupItem header={note.content.trim().split('\n')[0]}>
-            {'Created: ' + new Date(note.createdAt).toLocaleString()}
+        <Link key={note.notesId} to={`/notes/${note.notesId}`}>
+          <ListGroupItem>
+            {note.content.trim().split('\n')[0] +
+              'Created: ' +
+              new Date(note.createdAt).toLocaleString()}
           </ListGroupItem>
-        </LinkContainer>
+        </Link>
       ) : (
-        <LinkContainer key="new" to="/notes/new">
+        <Link key="new" to="/notes/new">
           <ListGroupItem>
             <h4>
               <b>{'\uFF0B'}</b> Create a new note
             </h4>
           </ListGroupItem>
-        </LinkContainer>
+        </Link>
       )
     );
   }
 
-  renderLander() {
+  renderLanding() {
     return (
-      <div className="lander">
-        <h1>Brain Dump</h1>
-        <p>Go ahead, dump your thoughts. It's safe here.</p>
+      <div>
+        <Subtitle>Jot down your brilliant ideas.</Subtitle>
+        <ButtonContainer>
+          <Link to="/signup">Signup</Link>
+          <Link to="/login">Login</Link>
+        </ButtonContainer>
       </div>
     );
   }
@@ -74,11 +108,8 @@ export default class Home extends Component {
   }
 
   render() {
-    return (
-      <div className="Home">
-        {/* Only render notes if user is authenticated */}
-        {this.props.isAuthenticated ? this.renderNotes() : this.renderLander()}
-      </div>
-    );
+    return this.props.isAuthenticated
+      ? this.renderNotes()
+      : this.renderLanding();
   }
 }
