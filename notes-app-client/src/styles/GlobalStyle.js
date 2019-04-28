@@ -26,8 +26,9 @@ const GlobalStyle = createGlobalStyle`
     background-color: ${colors.lightGrey};
     color: ${colors.brown};
     line-height: 1.45;
-    font-family: ${fonts.ProximaNova};
+    font-family: ${fonts.Karla};
     font-size: ${fontSizes.large};
+    transition: ${transition};
     ${media.phablet`font-size: ${fontSizes.medium};`}
 
     &.hidden {
@@ -76,33 +77,18 @@ const GlobalStyle = createGlobalStyle`
 
   a {
     font-family: ${fonts.Karla};
-    position: relative;
-    overflow: hidden;
+    font-weight: 700;
+    display: inline-block;
     text-decoration: none;
-    color: ${colors.brown};
-    margin: 20px;
-    padding: 5px;
-  
-    ::after {
-      content: "";
-      background: ${colors.mintGreenRGB};
-      position: absolute;
-      left: 12px;
-      bottom: 5px;
-      width: calc(100% - 13px);
-      height: calc(100% - 24px);
-      z-index: -1;
-      transition: ${transition};
-    }
-    :hover {
-      color: ${colors.brown};
+    color: inherit;
+    position: relative;
+    transition: ${theme.transition};
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      color: ${colors.orange};
       text-decoration: none;
-    }
-    :hover:after {
-      left: 0;
-      bottom: -2px;
-      width: 100%;
-      height: 100%;
     }
   }
   

@@ -5,6 +5,7 @@ const theme = {
     lightGrey: '#ECEFF1',
     beige: '#FCD8B7',
     mintGreenRGB: 'rgba(136,210,210, .75)',
+    orangeRGB: 'rgba(230,55,37, .6)',
   },
 
   fonts: {
@@ -21,8 +22,8 @@ const theme = {
     medium: '16px',
     large: '18px',
     xlarge: '20px',
-    xxlarge: '22px',
-    h2: '24px',
+    xxlarge: '24px',
+    h2: '30px',
     h1: '32px',
   },
 
