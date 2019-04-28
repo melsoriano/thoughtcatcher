@@ -1,10 +1,14 @@
 import React, { Component, Fragment } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { Nav, Navbar, NavItem } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { withRouter, Link } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
-import './App.css';
+import styled from 'styled-components';
+import GlobalStyle from './styles/GlobalStyle';
 import Routes from './Routes';
+import { Navbar, Main } from './styles';
+
+const NavLinkContainer = styled.div`
+  display: flex;
+`;
 
 class App extends Component {
   constructor(props) {
@@ -46,33 +50,26 @@ class App extends Component {
 
     return (
       !this.state.isAuthenticating && (
-        <div className="App container">
-          <Navbar fluid collapseOnSelect>
-            <Navbar.Header>
-              <Navbar.Brand>
-                <Link to="/">Brain Dump</Link>
-              </Navbar.Brand>
-              <Navbar.Toggle />
-            </Navbar.Header>
-            <Navbar.Collapse>
-              <Nav pullRight>
-                {this.state.isAuthenticated ? (
-                  <NavItem onClick={this.handleLogout}>Logout</NavItem>
-                ) : (
-                  <Fragment>
-                    <LinkContainer to="/signup">
-                      <NavItem>Signup</NavItem>
-                    </LinkContainer>
-                    <LinkContainer to="/login">
-                      <NavItem>Login</NavItem>
-                    </LinkContainer>
-                  </Fragment>
-                )}
-              </Nav>
-            </Navbar.Collapse>
+        <Main>
+          <GlobalStyle />
+          <Navbar>
+            <NavLinkContainer className="nav-links">
+              <Link to="/">thoughtcatcher</Link>
+            </NavLinkContainer>
+            {this.state.isAuthenticated ? (
+              <Link onClick={this.handleLogout} to="/logout">
+                Logout
+              </Link>
+            ) : (
+              <NavLinkContainer className="nav-links">
+                <Link to="/signup">Signup</Link>
+                <Link to="/login">Login</Link>
+              </NavLinkContainer>
+            )}
           </Navbar>
+          <Fragment />
           <Routes childProps={childProps} />
-        </div>
+        </Main>
       )
     );
   }
