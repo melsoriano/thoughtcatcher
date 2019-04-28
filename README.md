@@ -1,4 +1,4 @@
-# Brain Dump
+# thoughtcatcher
 
 Note taking app built with Serverless and React on AWS
 
