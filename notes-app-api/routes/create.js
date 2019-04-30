@@ -9,6 +9,7 @@ export async function main(event, context) {
     Item: {
       userId: event.requestContext.identity.cognitoIdentityId,
       notesId: uuid.v1(),
+      title: data.title,
       content: data.content,
       attachment: data.attachment,
       createdAt: Date.now(),
