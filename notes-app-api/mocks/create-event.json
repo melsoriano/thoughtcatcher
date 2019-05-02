@@ -1,8 +1,8 @@
 {
-  "body": "{\"title\":\"yo\",\"content\":\"hello world\",\"attachment\":\"hello.jpg\"}",
+  "body": "{\"title\":\"my title\",\"content\":\"hello world\",\"attachment\":\"hello.jpg\"}",
   "requestContext": {
     "identity": {
-      "cognitoIdentityId": "USER-SUB-1234"
+      "cognitoIdentityId": "us-east-1:90e9edb0-c9dd-4ff1-929e-4ba412a0e348"
     }
   }
 }
