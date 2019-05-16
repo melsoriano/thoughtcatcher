@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-export default ({
+export const AuthenticatedRoute = ({
   component: ComponentToBeRendered,
   props: cProps,
   ...rest

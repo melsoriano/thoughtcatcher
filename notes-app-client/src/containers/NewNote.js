@@ -13,11 +13,12 @@ export default class NewNote extends Component {
     this.state = {
       isLoading: null,
       content: '',
+      title: '',
     };
   }
 
   validateForm() {
-    return this.state.content.length > 0;
+    return this.state.content.length > 0 && this.state.title.length > 0;
   }
 
   handleChange = event => {
@@ -45,7 +46,11 @@ export default class NewNote extends Component {
     try {
       const attachment = this.file ? await s3Upload(this.file) : null;
 
-      await this.createNote({ attachment, content: this.state.content });
+      await this.createNote({
+        attachment,
+        content: this.state.content,
+        title: this.state.title,
+      });
       this.props.history.push('/');
     } catch (e) {
       alert(e);
@@ -54,6 +59,7 @@ export default class NewNote extends Component {
   };
 
   createNote(note) {
+    console.log('creating note: ', note);
     return API.post('notes', '/notes', { body: note });
   }
 
@@ -61,6 +67,13 @@ export default class NewNote extends Component {
     return (
       <div className="NewNote">
         <form onSubmit={this.handleSubmit}>
+          <FormGroup controlId="title">
+            <FormControl
+              onChange={this.handleChange}
+              value={this.state.title}
+              componentClass="input"
+            />
+          </FormGroup>
           <FormGroup controlId="content">
             <FormControl
               onChange={this.handleChange}

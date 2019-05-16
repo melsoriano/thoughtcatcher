@@ -1,11 +1,12 @@
 const theme = {
   colors: {
-    orange: '#E63725',
-    brown: '#310D04',
+    white: '#f8f8ff',
+    salmonPink: '#F9B1B1',
+    navyBlue: '#061846',
     lightGrey: '#ECEFF1',
     beige: '#FCD8B7',
     mintGreenRGB: 'rgba(136,210,210, .75)',
-    orangeRGB: 'rgba(230,55,37, .6)',
+    salmonPinkRGB: 'rgba(249,177,177, .8)',
   },
 
   fonts: {

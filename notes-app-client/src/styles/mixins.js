@@ -27,7 +27,7 @@ const mixins = {
     position: relative;
     overflow: hidden;
     text-decoration: none;
-    color: ${colors.brown};
+    color: ${colors.navyBlue};
     margin: 20px;
     padding: 5px;
     cursor: pointer;
@@ -44,7 +44,7 @@ const mixins = {
       transition: ${transition};
     }
     :hover {
-      color: ${colors.brown};
+      color: ${colors.navyBlue};
       text-decoration: none;
     }
     :hover:after {
@@ -56,9 +56,8 @@ const mixins = {
   `,
 
   sidePadding: css`
-    padding: 0 100px;
-    ${media.desktop`padding: 0 50px;`};
-    ${media.phablet`padding: 0 25px;`};
+    padding: 0 10px;
+    ${media.tablet`padding: 0px;`};
   `,
 
   button: css`
@@ -67,9 +66,9 @@ const mixins = {
     font-weight: bold;
     text-transform: uppercase;
     text-decoration: none;
-    border: 4px solid ${colors.brown};
-    color: ${colors.brown};
-    background: ${colors.lightGrey};
+    border: 4px solid ${colors.navyBlue};
+    color: ${colors.navyBlue};
+    background: ${colors.white};
     outline: none;
     position: relative;
     display: inline-block;
@@ -82,8 +81,8 @@ const mixins = {
       position: absolute;
       width: 100%;
       height: 100%;
-      border: 2px solid ${colors.brown};
-      background-color: ${colors.brown};
+      border: 2px solid ${colors.navyBlue};
+      background-color: ${colors.navyBlue};
       left: 10px;
       top: 10px;
       z-index: -1;
@@ -95,9 +94,9 @@ const mixins = {
     &:hover {
       top: 2px;
       left: 2px;
-      border: 4px solid ${colors.orangeRGB};
-      color: ${colors.orangeRGB};
-      background: ${colors.lightGrey};
+      border: 4px solid ${colors.salmonPink};
+      color: ${colors.salmonPink};
+      background: ${colors.white};
     }
     &:hover:after {
       top: -2px;

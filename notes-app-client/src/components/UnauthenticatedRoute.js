@@ -18,7 +18,7 @@ function querystring(name, url = window.location.href) {
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
-export default ({
+export const UnauthenticatedRoute = ({
   component: ComponentToBeRendered,
   props: cProps,
   ...rest

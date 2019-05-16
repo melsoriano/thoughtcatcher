@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { API } from 'aws-amplify';
 import styled from 'styled-components';
-import { theme, mixins, media } from '../styles';
-const { fontSizes } = theme;
+import { mixins, media } from '../styles';
+import { Grommet, Box, Text } from 'grommet';
+import { Auth } from 'aws-amplify';
+import { Edit, Trash, Clock } from 'grommet-icons';
+import { ResponsiveGrid } from '../components/ResponsiveGrid';
 
 const ButtonContainer = styled.div`
   ${mixins.flexCenter};
@@ -13,27 +16,7 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const PageHeader = styled.h2`
-  display: flex;
-`;
-
-const ListGroup = styled.ul`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-const ListGroupItem = styled.li`
-  display: flex;
-`;
-
-const Subtitle = styled.h2`
-  font-size: ${fontSizes.xxlarge};
-  text-align: center;
-  padding: 20px;
-  ${media.phablet`font-size:${fontSizes.h1}`};
-`;
-
-export default class Home extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
 
@@ -50,7 +33,10 @@ export default class Home extends Component {
 
     try {
       const notes = await this.notes();
-      this.setState({ notes });
+
+      this.setState({
+        notes,
+      });
     } catch (e) {
       alert(e);
     }
@@ -62,54 +48,94 @@ export default class Home extends Component {
     return API.get('notes', '/notes');
   }
 
-  renderNotesList(notes) {
-    return [{}].concat(notes).map((note, i) =>
-      i !== 0 ? (
-        <Link key={note.notesId} to={`/notes/${note.notesId}`}>
-          <ListGroupItem>
-            {note.content.trim().split('\n')[0] +
-              'Created: ' +
-              new Date(note.createdAt).toLocaleString()}
-          </ListGroupItem>
-        </Link>
-      ) : (
-        <Link key="new" to="/notes/new">
-          <ListGroupItem>
-            <h4>
-              <b>{'\uFF0B'}</b> Create a new note
-            </h4>
-          </ListGroupItem>
-        </Link>
-      )
-    );
-  }
-
   renderLanding() {
     return (
-      <div>
-        <Subtitle>Jot down your brilliant ideas.</Subtitle>
+      <Box>
         <ButtonContainer>
           <Link to="/signup">Signup</Link>
           <Link to="/login">Login</Link>
         </ButtonContainer>
-      </div>
+      </Box>
     );
   }
 
-  renderNotes() {
-    return (
-      <div className="notes">
-        <PageHeader>Your Notes</PageHeader>
-        <ListGroup>
-          {!this.state.isLoading && this.renderNotesList(this.state.notes)}
-        </ListGroup>
-      </div>
-    );
-  }
+  handleLogout = async () => {
+    await Auth.signOut();
+    this.props.userHasAuthenticated(false);
+    this.props.history.push('/');
+  };
+
+  handleChange = event => {
+    this.setState({
+      [event.target.id]: event.target.value,
+    });
+  };
 
   render() {
-    return this.props.isAuthenticated
-      ? this.renderNotes()
-      : this.renderLanding();
+    const { notes } = this.state;
+
+    return !this.props.isAuthenticated
+      ? this.renderLanding()
+      : !this.state.isLoading && (
+          <Grommet full={true}>
+            <Box
+              direction="row"
+              align="center"
+              justify="center"
+              pad={{ horizontal: 'medium', vertical: 'small' }}>
+              <Box
+                direction="row"
+                width="100%"
+                align="center"
+                justify="between">
+                <Link to="/">thoughtcatcher</Link>
+                <Link to="/" onClick={this.handleLogout}>
+                  logout
+                </Link>
+              </Box>
+            </Box>
+            <ResponsiveGrid>
+              <Box
+                background="#D2EFFE"
+                round="3px"
+                width="95%"
+                pad="xsmall"
+                margin="small"
+                responsive={true}
+                align="center"
+                justify="center">
+                <Link to="notes/new">Create New</Link>
+              </Box>
+              {notes &&
+                notes.map((note, i) => (
+                  <Box
+                    key={i}
+                    background="#D2EFFE"
+                    round="3px"
+                    width="95%"
+                    pad="xsmall"
+                    margin="small"
+                    responsive={true}>
+                    <Link to={`notes/${note.notesId}`}>
+                      <Box>
+                        <Text size="medium">{note.title}</Text>
+                        <Text size="small">
+                          <Clock size="12px" />{' '}
+                          {new Date(note.createdAt).toLocaleString()}
+                        </Text>
+                        <Box>
+                          <Text truncate={true} size="small">
+                            {note.content}
+                          </Text>
+                        </Box>
+                      </Box>
+                    </Link>
+                  </Box>
+                ))}
+            </ResponsiveGrid>
+          </Grommet>
+        );
   }
 }
+
+export default Home;

@@ -23,8 +23,8 @@ const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    background-color: ${colors.lightGrey};
-    color: ${colors.brown};
+    background-color: ${colors.white};
+    color: ${colors.navyBlue};
     line-height: 1.45;
     font-family: ${fonts.Karla};
     font-size: ${fontSizes.large};
@@ -77,7 +77,6 @@ const GlobalStyle = createGlobalStyle`
 
   a {
     font-family: ${fonts.Karla};
-    font-weight: 700;
     display: inline-block;
     text-decoration: none;
     color: inherit;
@@ -87,7 +86,7 @@ const GlobalStyle = createGlobalStyle`
 
     &:hover,
     &:focus {
-      color: ${colors.orange};
+      color: ${colors.salmonPink};
       text-decoration: none;
     }
   }

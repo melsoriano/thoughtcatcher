@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { API, Storage } from 'aws-amplify';
 import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import LoaderButton from '../components/LoaderButton';
@@ -17,6 +17,7 @@ export default class Notes extends Component {
       isDeleting: null,
       note: null,
       content: '',
+      title: '',
       attachmentURL: null,
     };
   }
@@ -25,7 +26,7 @@ export default class Notes extends Component {
     try {
       let attachmentURL;
       const note = await this.getNote();
-      const { content, attachment } = note;
+      const { content, attachment, title } = note;
 
       if (attachment) {
         attachmentURL = await Storage.vault.get(attachment);
@@ -34,6 +35,7 @@ export default class Notes extends Component {
       this.setState({
         note,
         content,
+        title,
         attachmentURL,
       });
     } catch (e) {
@@ -56,7 +58,7 @@ export default class Notes extends Component {
   }
 
   validateForm() {
-    return this.state.content.length > 0;
+    return this.state.content.length > 0 && this.state.title.length > 0;
   }
 
   formatFilename(str) {
@@ -95,13 +97,19 @@ export default class Notes extends Component {
 
       await this.saveNote({
         content: this.state.content,
+        title: this.state.title,
         attachment: attachment || this.state.note.attachment,
       });
       this.props.history.push('/');
+
+      // this.props.location({
+      //   pathname: '/',
+      //   state: { note: this.state.note },
+      // });
     } catch (e) {
       alert(e);
-      this.setState({ isLoading: false });
     }
+    this.setState({ isLoading: false });
   };
 
   handleDelete = async event => {
@@ -128,57 +136,68 @@ export default class Notes extends Component {
 
   render() {
     return (
-      <div className="Notes">
-        {this.state.note && (
-          <form onSubmit={this.handleSubmit}>
-            <FormGroup controlId="content">
-              <FormControl
-                onChange={this.handleChange}
-                value={this.state.content}
-                componentClass="textarea"
-              />
-            </FormGroup>
-            {this.state.note.attachment && (
-              <FormGroup>
-                <ControlLabel>Attachment</ControlLabel>
-                <FormControl.Static>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={this.state.attachmentURL}>
-                    {this.formatFilename(this.state.note.attachment)}
-                  </a>
-                </FormControl.Static>
+      <Fragment>
+        <div className="Notes">
+          {this.state.note && (
+            <form onSubmit={this.handleSubmit}>
+              <FormGroup controlId="title">
+                <FormControl
+                  onChange={this.handleChange}
+                  value={this.state.title}
+                  componentClass="input"
+                />
               </FormGroup>
-            )}
-            <FormGroup controlId="file">
-              {!this.state.note.attachment && (
-                <ControlLabel>Attachment</ControlLabel>
+              <FormGroup controlId="content">
+                <FormControl
+                  onChange={this.handleChange}
+                  value={this.state.content}
+                  componentClass="textarea"
+                />
+              </FormGroup>
+              {this.state.note.attachment && (
+                <FormGroup>
+                  <ControlLabel>Attachment</ControlLabel>
+                  <FormControl.Static>
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={this.state.attachmentURL}>
+                      {this.formatFilename(this.state.note.attachment)}
+                    </a>
+                  </FormControl.Static>
+                </FormGroup>
               )}
-              <FormControl onChange={this.handleFileChange} type="file" />
-            </FormGroup>
-            <LoaderButton
-              block
-              bsStyle="primary"
-              bsSize="large"
-              disabled={!this.validateForm()}
-              type="submit"
-              isLoading={this.state.isLoading}
-              text="Save"
-              loadingText="Saving…"
-            />
-            <LoaderButton
-              block
-              bsStyle="danger"
-              bsSize="large"
-              isLoading={this.state.isDeleting}
-              onClick={this.handleDelete}
-              text="Delete"
-              loadingText="Deleting…"
-            />
-          </form>
-        )}
-      </div>
+              <FormGroup controlId="file">
+                {!this.state.note.attachment && (
+                  <ControlLabel>Attachment</ControlLabel>
+                )}
+                <FormControl onChange={this.handleFileChange} type="file" />
+              </FormGroup>
+
+              <LoaderButton
+                block
+                bsStyle="primary"
+                bsSize="large"
+                disabled={!this.validateForm()}
+                type="submit"
+                isLoading={this.state.isLoading}
+                text="Save"
+                loadingText="Saving…"
+              />
+
+              <LoaderButton
+                block
+                bsStyle="danger"
+                bsSize="large"
+                isLoading={this.state.isDeleting}
+                onClick={this.handleDelete}
+                text="Delete"
+                loadingText="Deleting…"
+              />
+            </form>
+          )}
+        </div>
+      </Fragment>
     );
   }
 }
