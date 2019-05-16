@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { mixins, media } from '../styles';
 import { Grommet, Box, Text } from 'grommet';
 import { Auth } from 'aws-amplify';
-import { Edit, Trash, Clock } from 'grommet-icons';
+import { Clock } from 'grommet-icons';
 import { ResponsiveGrid } from '../components/ResponsiveGrid';
 
 const ButtonContainer = styled.div`
